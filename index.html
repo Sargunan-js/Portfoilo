@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            background-color: #0f1628;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Navbar Styling */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(15, 22, 40, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            padding: 1rem 0;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 1.5rem;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #4facfe;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* Section Styling */
+        section {
+            min-height: 100vh;
+            padding: 6rem 2rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1, h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        /* Fade-in Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Form Styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        #formStatus {
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        input, textarea {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            color: #fff;
+            font-family: inherit;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        button {
+            padding: 0.8rem 2rem;
+            background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            font-weight: bold;
+            align-self: center;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 242, 254, 0.2);
+        }
+
+        /* Footer Styling */
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: rgba(15, 22, 40, 0.8);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Background -->
+    <canvas id="particle-canvas"></canvas>
+    
+    <!-- Navbar -->
+    <nav>
+        <ul>
+            <li><a href="#home" onclick="scrollToSection('home')">Home</a></li>
+            <li><a href="#about" onclick="scrollToSection('about')">About</a></li>
+            <li><a href="#projects" onclick="scrollToSection('projects')">Projects</a></li>
+            <li><a href="#contact" onclick="scrollToSection('contact')">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Sections -->
+    <section id="home" class="fade-in">
+        <h1>Welcome to My Portfolio</h1>
+        <p>I am a beginner Web Developer excited to build awesome websites!</p>
+    </section>
+    
+    <section id="about" class="fade-in">
+        <h2>About Me</h2>
+        <p>Hello! I'm a passionate beginner learning HTML, CSS, and JavaScript. I love creating clean, simple, and beautiful websites.</p>
+    </section>
+    
+    <section id="projects" class="fade-in">
+        <h2>My Projects</h2>
+        <p>Here are some small projects I've built while learning web development. More coming soon!</p>
+    </section>
+    
+    <section id="contact" class="fade-in">
+        <h2>Contact Me</h2>
+        <form id="contactForm" action="https://formspree.io/f/your-formspree-id" method="POST">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Send</button>
+            <p id="formStatus"></p>
+        </form>
+    </section>
+    
+    <footer>
+        <p>© 2025 My Portfolio. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // Smooth scrolling function
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+        
+        // Form submission handling
+        const contactForm = document.getElementById('contactForm');
+        const formStatus = document.getElementById('formStatus');
+        
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const formData = new FormData(contactForm);
+                const formAction = contactForm.getAttribute('action');
+                
+                fetch(formAction, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        formStatus.textContent = "Thank you! Your message has been sent.";
+                        formStatus.style.color = "#4facfe";
+                        contactForm.reset();
+                    } else {
+                        response.json().then(data => {
+                            if (Object.hasOwnProperty.call(data, 'errors')) {
+                                formStatus.textContent = data.errors.map(error => error.message).join(", ");
+                            } else {
+                                formStatus.textContent = "Oops! There was a problem sending your message.";
+                            }
+                            formStatus.style.color = "#ff6b6b";
+                        });
+                    }
+                })
+                .catch(error => {
+                    formStatus.textContent = "Oops! There was a problem sending your message.";
+                    formStatus.style.color = "#ff6b6b";
+                    console.error('Error:', error);
+                });
+            });
+        }
+        
+        // Observe sections for fade-in animation
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fade in elements in viewport
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            // Observe all fade-in sections
+            document.querySelectorAll('.fade-in').forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Particle animation
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas dimensions
+            const setCanvasDimensions = () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            };
+            
+            setCanvasDimensions();
+            window.addEventListener('resize', setCanvasDimensions);
+            
+            // Particle settings
+            const particleCount = 100;
+            const particles = [];
+            const connectionDistance = 150;
+            const maxSpeed = 0.5;
+            
+            // Colors
+            const particleColor = 'rgba(79, 172, 254, 0.7)';
+            const connectionColor = 'rgba(79, 172, 254, 0.15)';
+            
+            // Create particles
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.vx = (Math.random() - 0.5) * maxSpeed;
+                    this.vy = (Math.random() - 0.5) * maxSpeed;
+                    this.radius = Math.random() * 2 + 1;
+                }
+                
+                update() {
+                    // Move particles
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    
+                    // Bounce off edges
+                    if (this.x < 0 || this.x > canvas.width) {
+                        this.vx = -this.vx;
+                    }
+                    if (this.y < 0 || this.y > canvas.height) {
+                        this.vy = -this.vy;
+                    }
+                }
+                
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = particleColor;
+                    ctx.fill();
+                }
+            }
+            
+            // Initialize particles
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+            
+            // Connect particles if they're close enough
+            function connectParticles() {
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < connectionDistance) {
+                            // Calculate opacity based on distance
+                            const opacity = 1 - (distance / connectionDistance);
+                            ctx.strokeStyle = connectionColor;
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+            
+            // Mouse interaction
+            let mouse = {
+                x: null,
+                y: null,
+                radius: 150
+            };
+            
+            window.addEventListener('mousemove', (event) => {
+                mouse.x = event.x;
+                mouse.y = event.y;
+            });
+            
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Update and draw particles
+                particles.forEach(particle => {
+                    // Add mouse interaction
+                    if (mouse.x !== null && mouse.y !== null) {
+                        const dx = particle.x - mouse.x;
+                        const dy = particle.y - mouse.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < mouse.radius) {
+                            const forceDirectionX = dx / distance;
+                            const forceDirectionY = dy / distance;
+                            const force = (mouse.radius - distance) / mouse.radius;
+                            
+                            particle.vx += forceDirectionX * force * 0.2;
+                            particle.vy += forceDirectionY * force * 0.2;
+                        }
+                    }
+                    
+                    // Apply speed limit
+                    const speed = Math.sqrt(particle.vx * particle.vx + particle.vy * particle.vy);
+                    if (speed > maxSpeed) {
+                        particle.vx = (particle.vx / speed) * maxSpeed;
+                        particle.vy = (particle.vy / speed) * maxSpeed;
+                    }
+                    
+                    particle.update();
+                    particle.draw();
+                });
+                
+                connectParticles();
+            }
+            
+            animate();
+        });
+    </script>
+</body>
+</html>
